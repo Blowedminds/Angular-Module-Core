@@ -52,8 +52,8 @@ export class MainRequestService {
       .pipe(catchError(error => this.handleError(error)));
   }
 
-  makePutRequest(key: string, data: any) {
-    const url = this.makeUrl(key);
+  makePutRequest(key: string, data: any, id?: string) {
+    const url = this.makeUrl(key, id || '');
 
     return this.http
       .put(url, JSON.stringify(data), this.options)
