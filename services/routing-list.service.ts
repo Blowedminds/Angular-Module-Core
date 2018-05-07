@@ -3,63 +3,13 @@ import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 
+import { routes } from '../../routes';
 @Injectable()
 export class RoutingListService {
-  routes: any = {
-    auth: {
-      url: 'auth/',
-      'register': { url: 'register/' },
-      'is-authenticated': { url: 'is-authenticated/' },
-      'login': { url: 'login/' },
-      'logout': { url: 'logout/' }
-    },
-    article: {
-      url: 'editor/',
-      'article': {
-        url: 'article/',
-        'content': { url: 'content/' },
-        'restore': { url: 'restore/' },
-        'force-delete': { url: 'force-delete/' },
-        'permission': { url: 'permission/' }
-      },
-      'articles': { url: 'articles/' },
-      'trash': { url: 'trashed-articles/' },
-    },
-    admin: {
-      url: 'editor/panel/',
-      'languages': { url: 'languages/' },
-      'categories': { url: 'categories/' },
-      'menus': { url: 'menus/' },
-      'users': { url: 'users/' },
-      'roles': { url: 'roles/' },
-      'user': { url: 'user/'},
-    },
-    image: {
-      url: 'image/',
-      'image': { url: 'image/' },
-      'thumb': { url: 'thumb/' },
-      'images': { url: 'images/' },
-      'edit': { url: 'edit/' }
-    },
-    user: {
-      url: 'user/',
-      'info': { url: 'info/' },
-      'menus': { url: 'menus/en/' },
-      'dashboard': { url: 'dashboard/' },
-      'management': { url: 'management/' },
-      'profile-image': { url: 'profile-image/' },
-      'profile': { url: 'profile/' }
-    },
-    public: {
-      url: '',
-      'image': {
-        url: 'images/',
-        'author': { url: 'author/' }
-      }
-    }
-  };
 
-  constructor() { }
+  routes: any;
+
+  constructor() { this.routes = routes; }
 
   getUrl(key: string): string {
     const parsedKey = this.parseKey(key);
