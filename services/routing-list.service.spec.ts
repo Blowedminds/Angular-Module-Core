@@ -17,7 +17,7 @@ fdescribe('RoutingListService', () => {
   }));
 
   it('should return article content url', () => {
-    expect(service.getUrl('article.article.content')).toEqual('article/article/content/');
+    expect(service.getUrl('article.content')).toEqual('article/content/');
   });
   //
   // it('should parse empty string', () => {
