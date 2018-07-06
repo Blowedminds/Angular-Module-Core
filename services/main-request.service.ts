@@ -81,6 +81,14 @@ export class MainRequestService {
   protected handleError(error: any, router: any = null): Promise<any> {
     console.error('An error occurred', error); // for demo purposes only
 
+    if (typeof error.error.action === 'undefined') {
+      const body = error.error;
+      // snackBar.open(body.message, body.action, {
+      //   duration: 2000,
+      //   panelClass: ['has-background-danger', 'has-text-white']
+      // });
+    }
+
     switch (error.status) {
       case 401:
         this.helpersService.navigate(['login']);
