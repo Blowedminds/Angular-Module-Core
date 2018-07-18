@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { Observable } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, Observable } from 'rxjs/operators';
 
 import { HelpersService } from './helpers.service';
 import { RoutingListService } from './routing-list.service';
 import { environment } from '../../../environments/environment';
+
+import swal from 'sweetalert2';
 
 @Injectable()
 export class MainRequestService {
@@ -36,7 +37,7 @@ export class MainRequestService {
     protected routingListService: RoutingListService
   ) { }
 
-  makeGetRequest(key: string, id?: string) {
+  makeGetRequest(key: string, id?: string): Observable<any> {
     const url = this.makeUrl(key, id || '');
 
     return this.http
@@ -44,7 +45,7 @@ export class MainRequestService {
       .pipe(catchError(error => this.handleError(error)));
   }
 
-  makePostRequest(key: string, data: any, id?: string) {
+  makePostRequest(key: string, data: any, id?: string): Observable<any> {
     const url = this.makeUrl(key, id || '');
 
     return this.http
@@ -52,7 +53,7 @@ export class MainRequestService {
       .pipe(catchError(error => this.handleError(error)));
   }
 
-  makePutRequest(key: string, data: any, id?: string) {
+  makePutRequest(key: string, data: any, id?: string): Observable<any> {
     const url = this.makeUrl(key, id || '');
 
     return this.http
@@ -81,14 +82,6 @@ export class MainRequestService {
   protected handleError(error: any, router: any = null): Promise<any> {
     console.error('An error occurred', error); // for demo purposes only
 
-    if (typeof error.error.action === 'undefined') {
-      const body = error.error;
-      // snackBar.open(body.message, body.action, {
-      //   duration: 2000,
-      //   panelClass: ['has-background-danger', 'has-text-white']
-      // });
-    }
-
     switch (error.status) {
       case 401:
         this.helpersService.navigate(['login']);
@@ -96,6 +89,25 @@ export class MainRequestService {
       case 421:
         this.helpersService.navigate([error.link]);
         break;
+      default:
+        swal({
+          title: 'Error!',
+          type: 'error',
+          text: 'We have encountered with an error, you should send this error trace to us to improve stability',
+          confirmButtonText: 'Send Report',
+          showCancelButton: true,
+        }).then((result) => {
+          if (result.value) {
+            const rq1 = this.makePostRequest('core.error', error).subscribe(response => {
+              swal({
+                title: 'Thank you!',
+                timer: 1500
+              });
+
+              rq1.unsubscribe();
+            });
+          }
+        });
     }
     return Promise.reject(error.message || error);
   }
