@@ -20,4 +20,12 @@ export class HelpersService {
   navigate(link: Array<any>, options?: any) {
     return this.router.navigate(link, options || {});
   }
+
+  navigateByUrl(link: string) {
+    return this.router.navigateByUrl(link);
+  }
+
+  getLocale() {
+    return localStorage.getItem('locale') || 'tr';
+  }
 }
