@@ -17,10 +17,8 @@ export class HelpersService {
     return sessionStorage.getItem('token');
   }
 
-  getLocale(): string {
-    const locale = localStorage.getItem('locale');
-
-    return locale || 'tr';
+  getLocale() {
+    return localStorage.getItem('locale') || 'tr';
   }
 
   navigate(link: Array<any>, options?: any) {
@@ -29,9 +27,5 @@ export class HelpersService {
 
   navigateByUrl(link: string) {
     return this.router.navigateByUrl(link);
-  }
-
-  getLocale() {
-    return localStorage.getItem('locale') || 'tr';
   }
 }
