@@ -14,7 +14,13 @@ export class HelpersService {
   }
 
   getToken() {
-    return localStorage.getItem('token');
+    return sessionStorage.getItem('token');
+  }
+
+  getLocale(): string {
+    const locale = localStorage.getItem('locale');
+
+    return locale || 'tr';
   }
 
   navigate(link: Array<any>, options?: any) {
