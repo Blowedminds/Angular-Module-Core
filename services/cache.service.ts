@@ -57,6 +57,16 @@ export class CacheService {
     return this.cache.has(key);
   }
 
+  delete(key: string): void {
+    if (this.cache.has(key)) {
+      this.cache.delete(key);
+    }
+  }
+
+  clear(): void {
+    this.cache.clear();
+  }
+
   private notifyInFlightObservers(key: string, value: any): void {
 
     if (this.inFlightObservables.has(key)) {

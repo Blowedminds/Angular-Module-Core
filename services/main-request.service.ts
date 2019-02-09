@@ -91,7 +91,7 @@ export class MainRequestService {
         this.helpersService.navigate([error.link]);
         break;
       default:
-        swal({
+        swal.fire({
           title: 'Error!',
           type: 'error',
           text: 'We have encountered with an error, you should send this error trace to us to improve stability',
@@ -100,7 +100,7 @@ export class MainRequestService {
         }).then((result) => {
           if (result.value) {
             const rq1 = this.makePostRequest('core.error', error).subscribe(response => {
-              swal({
+              swal.fire({
                 title: 'Thank you!',
                 timer: 1500
               });
