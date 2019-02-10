@@ -4,6 +4,10 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class MainService {
+  // Pagination Options
+  defaultPageSize = 10;
+
+  pageSizeOptions: Array<number> = [5, 10, 20, 50];
 
   constructor() { }
 
@@ -14,4 +18,12 @@ export class MainService {
     });
   }
 
+  changePageOptions(helpersService: any, options: { pageSize: number, pageIndex: number }) {
+    helpersService.navigate(['/articles'], {
+      queryParams: {
+        'page-size': options.pageSize,
+        'page': options.pageIndex + 1
+      }
+    });
+  }
 }
