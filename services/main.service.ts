@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 
+import swal from 'sweetalert2';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -19,11 +21,26 @@ export class MainService {
   }
 
   changePageOptions(helpersService: any, options: { pageSize: number, pageIndex: number }) {
-    helpersService.navigate(['/articles'], {
+    helpersService.navigate([], {
       queryParams: {
         'page-size': options.pageSize,
         'page': options.pageIndex + 1
       }
     });
+  }
+
+  deleteAlert(title: string, action: any) {
+    swal.fire({
+      title: title,
+      type: 'info',
+      text: 'Bu Öğe Silinecek',
+      confirmButtonText: 'Sil',
+      showCancelButton: true,
+    }).then((result) => {
+      if (result.value) {
+        action();
+      }
+    });
+
   }
 }
