@@ -1,4 +1,4 @@
-##Angular-Module-Core
+# Angular-Module-Core
 
 This module consist the core functionalities of fmblog. I assume that you have created Angular project with `@angular/cli`
 
