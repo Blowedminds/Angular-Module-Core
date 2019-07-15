@@ -7,7 +7,7 @@ import swal from 'sweetalert2';
 })
 export class MainService {
   // Pagination Options
-  defaultPageSize = 10;
+  defaultPageSize = 20;
 
   pageSizeOptions: Array<number> = [5, 10, 20, 50];
 

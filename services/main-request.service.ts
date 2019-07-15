@@ -90,26 +90,30 @@ export class MainRequestService {
       case 421:
         this.helpersService.navigate([error.link]);
         break;
+      case 422:
+        break;
       default:
         swal.fire({
           title: 'Error!',
           type: 'error',
-          text: 'We have encountered with an error, you should send this error trace to us to improve stability',
+          // text: 'We have encountered with an error, you should send this error trace to us to improve stability',
+          text: 'We have encountered with an error',
           confirmButtonText: 'Send Report',
           showCancelButton: true,
         }).then((result) => {
           if (result.value) {
-            const rq1 = this.makePostRequest('core.error', error).subscribe(response => {
-              swal.fire({
-                title: 'Thank you!',
-                timer: 1500
-              });
+            // const rq1 = this.makePostRequest('core.error', error).subscribe(response => {
+            //   swal.fire({
+            //     title: 'Thank you!',
+            //     timer: 1500
+            //   });
 
-              rq1.unsubscribe();
-            });
+            //   rq1.unsubscribe();
+            // });
           }
         });
     }
-    return Promise.reject(error.message || error);
+    
+    return Promise.reject(error.error || error);
   }
 }
