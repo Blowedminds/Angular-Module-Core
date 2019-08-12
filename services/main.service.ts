@@ -13,8 +13,8 @@ export class MainService {
 
   constructor() { }
 
-  openSnack(snack: any, response: any, success: boolean): void {
-    snack.open(response.message, response.action, {
+  openSnack(snack: any, message: string, action: string, success: boolean): void {
+    snack.open(message, action, {
       duration: 2000,
       panelClass: success ? [] : ['has-background-danger', 'has-text-white']
     });

@@ -20,15 +20,21 @@ export class RoutingListService {
 
     for (let i = 0; i < parsedKey.length; i++) {
 
-      url += route[parsedKey[i]].url;
+      const subRoute = route[parsedKey[i]];
 
-      route = route[parsedKey[i]];
+      if (typeof subRoute === 'string') {
+        url += subRoute;
+      } else {
+        url += route[parsedKey[i]].url;
+      }
+
+      route = subRoute;
     }
 
     return url;
   }
 
-  private parseKey(key: string): Array<string> {
+  parseKey(key: string): Array<string> {
     const parsedKey = [];
 
     for (let i = 0; i < key.length; i++) {
