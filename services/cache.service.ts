@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 
-import { BehaviorSubject } from 'rxjs';
 import { Observable, Subject, of, throwError } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
 

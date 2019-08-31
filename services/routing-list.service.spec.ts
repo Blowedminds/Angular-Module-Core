@@ -2,7 +2,7 @@ import { TestBed, inject } from '@angular/core/testing';
 
 import { RoutingListService } from './routing-list.service';
 
-fdescribe('RoutingListService', () => {
+describe('RoutingListService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
