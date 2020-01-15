@@ -7,7 +7,7 @@ export class TestingHelper {
     ];
 
     unAuthenticatedError(error: any): Promise<any> {
-        expect(error.error.message).toBe('Unauthenticated.');
+        expect(error.error.message).toBe(undefined);
 
         return Promise.reject(error);
     }
