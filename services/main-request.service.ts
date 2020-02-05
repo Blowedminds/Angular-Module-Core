@@ -114,6 +114,16 @@ export class MainRequestService {
       case 401:
         this.helpersService.navigate(['login']);
         break;
+      case 409:
+        if (error.error.errorCode === '23000' || error.error.errorCode === 23000) {
+          swal.fire({
+            title: 'Bu öğe kullanılıyor',
+            type: 'error',
+            text: 'Silmeye çalıştığınız öğe başka bir alan içerisinde kullanılıyor'
+          });
+        }
+
+        break;
       case 421:
         this.helpersService.navigate([error.link]);
         break;
