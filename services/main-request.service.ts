@@ -131,10 +131,10 @@ export class MainRequestService {
         break;
       default:
         swal.fire({
-          title: 'Error!',
+          title: error.status + ' ' + error.statusText,
           type: 'error',
-          text: 'We have encountered with an error',
-          confirmButtonText: 'Send Report',
+          text: error.name,
+          confirmButtonText: 'Ok',
           showCancelButton: true,
         }).then((result) => result);
     }
