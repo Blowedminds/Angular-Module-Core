@@ -6,6 +6,7 @@ import { HelpersService } from './services/helpers.service';
 import { MainRequestService } from './services/main-request.service';
 import { MainService } from './services/main.service';
 import { RoutingListService } from './services/routing-list.service';
+import { MainViewModelService } from './services/main-view-model.service';
 
 @NgModule({
   imports: [
@@ -16,7 +17,8 @@ import { RoutingListService } from './services/routing-list.service';
     HelpersService,
     MainRequestService,
     MainService,
-    RoutingListService
+    RoutingListService,
+    MainViewModelService
   ],
   declarations: [
   ]
