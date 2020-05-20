@@ -74,7 +74,7 @@ export class MainService {
   deleteAlert(title: string, action: any) {
     swal.fire({
       title: title,
-      type: 'info',
+      icon: 'info',
       text: 'Bu Öğe Silinecek',
       confirmButtonText: 'Sil',
       showCancelButton: true,

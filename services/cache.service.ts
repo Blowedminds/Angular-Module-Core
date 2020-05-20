@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 
-import { Observable, Subject, of, throwError } from 'rxjs';
-import { tap, catchError } from 'rxjs/operators';
+import {Observable, Subject, of, throwError} from 'rxjs';
+import {tap, catchError} from 'rxjs/operators';
 
 interface CacheContent {
   expiry: number;
@@ -46,7 +46,7 @@ export class CacheService {
 
   set(key: string, value: any, maxAge: number = this.DEFAULT_MAX_AGE): void {
 
-    this.cache.set(key, { value: value, expiry: Date.now() + maxAge });
+    this.cache.set(key, {value: value, expiry: Date.now() + maxAge});
 
     this.notifyInFlightObservers(key, value);
   }
@@ -106,6 +106,6 @@ export class CacheService {
   private handleError(error: any, key: string): Promise<any> {
     this.notifyInFlightObservers(key, null);
 
-    return Promise.reject(error.message || error);
+    return Promise.reject(error);
   }
 }

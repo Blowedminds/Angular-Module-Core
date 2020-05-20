@@ -1,19 +1,19 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { HelpersService } from './helpers.service';
+import { HelperService } from './helper.service';
 import { RouterTestingModule } from '@angular/router/testing';
 
 describe('HelpersService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [HelpersService],
+      providers: [HelperService],
       imports: [
         RouterTestingModule
       ]
     });
   });
 
-  it('should be created', inject([HelpersService], (service: HelpersService) => {
+  it('should be created', inject([HelperService], (service: HelperService) => {
     expect(service).toBeTruthy();
   }));
 });
