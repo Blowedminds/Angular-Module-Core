@@ -16,6 +16,10 @@ export class HttpConfigInterceptor implements HttpInterceptor {
   ) {
     // Recursion issue can occur.
     this.requestFailService.retryFailedRequests.subscribe((retryRequest: RetryRequest) => {
+        /*
+         Memory Leak, However cannot unsubscribe due to "can't access lexical declaration `sub' before initialization" error.
+         This subscription will occur just one or two times per page load. So not a big problem
+         */
         this.intercept(retryRequest.req, this.httpHandler).subscribe(response => {
           retryRequest.subject.next(response);
         });
@@ -39,24 +43,14 @@ export class HttpConfigInterceptor implements HttpInterceptor {
   private handlerError(error: any, req: HttpRequest<any>): Observable<any> {
     switch (error.status) {
       case 401:
-        if (this.router.navigated) {
+        if (this.router.navigated && this.router.url !== '/auth/login') {
           this.router.navigate([{outlets: {auth: ['popup']}}]);
           const subject = new Subject();
           setTimeout(() => this.requestFailService.failedRequests.next({req, subject}), 0);
           return subject;
-        } else {
+        } else if (this.router.url !== '/auth/login') {
           this.router.navigate(['auth/login']);
         }
-        break;
-      case 409:
-        if (error.error.errorCode === '23000' || error.error.errorCode === 23000) {
-          swal.fire({
-            title: 'Bu öğe kullanılıyor',
-            icon: 'error',
-            text: 'Silmeye çalıştığınız öğe başka bir alan içerisinde kullanılıyor'
-          });
-        }
-
         break;
       case 422:
         break;
