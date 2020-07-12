@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import swal from 'sweetalert2';
+import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -20,13 +21,15 @@ export class MainService {
     });
   }
 
-  changePageOptions(helpersService: any, options: { pageSize: number, pageIndex: number }) {
-    helpersService.navigate([], {
+  changePageOptions(router: Router, options: { pageSize: number, pageIndex: number }) {
+    router.navigate([], {
       queryParams: {
-        'page-size': options.pageSize,
-        'page': options.pageIndex + 1
-      }
-    });
+        perPage: options.pageSize,
+        page: options.pageIndex + 1
+      },
+      replaceUrl: true,
+      queryParamsHandling: 'merge'
+    }).then();
   }
 
   verticalDropEvent(event: any, target: Array<any>) {

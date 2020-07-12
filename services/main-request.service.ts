@@ -72,6 +72,10 @@ export class MainRequestService {
       .request(req);
   }
 
+  getHttpClient(): HttpClient {
+    return this.http;
+  }
+
   makeUrl(key: string, url?: string): string {
     const route = this.routingListService.getUrl(key);
 

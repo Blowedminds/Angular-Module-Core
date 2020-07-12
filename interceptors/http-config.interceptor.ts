@@ -16,10 +16,6 @@ export class HttpConfigInterceptor implements HttpInterceptor {
   ) {
     // Recursion issue can occur.
     this.requestFailService.retryFailedRequests.subscribe((retryRequest: RetryRequest) => {
-        /*
-         Memory Leak, However cannot unsubscribe due to "can't access lexical declaration `sub' before initialization" error.
-         This subscription will occur just one or two times per page load. So not a big problem
-         */
         this.intercept(retryRequest.req, this.httpHandler).subscribe(response => {
           retryRequest.subject.next(response);
         });
@@ -30,7 +26,6 @@ export class HttpConfigInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token: string = localStorage.getItem('token');
 
-    // TODO Learn why we are cloning each time
     req = req.clone({headers: req.headers.set('Authorization', `Bearer ${token}`)});
     req = req.clone({headers: req.headers.set('Content-Type', 'application/json')});
     req = req.clone({headers: req.headers.set('Accept', 'application/json')});
