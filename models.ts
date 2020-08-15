@@ -1,3 +1,6 @@
+import {HttpRequest} from '@angular/common/http';
+import {Subject} from 'rxjs';
+
 export interface SuccessResponse {
   message: string;
 }
@@ -27,4 +30,25 @@ export interface Pagination<T> {
 export interface PaginationParams {
   perPage: number;
   page: number;
+}
+
+export interface Roomable {
+  getTextroomId(): number;
+
+  getVideoroomId(): number;
+}
+
+export interface CoturnToken {
+  username: string;
+  password: string;
+}
+
+export interface JoinTokenResponse {
+  janus: TokenRespose;
+  coturn: CoturnToken;
+}
+
+export interface RetryRequest {
+  req: HttpRequest<any>;
+  subject: Subject<any>;
 }

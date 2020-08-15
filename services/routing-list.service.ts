@@ -1,15 +1,14 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {Injectable} from '@angular/core';
 
-import { Observable } from 'rxjs';
+import {routes} from '../../routes';
 
-import { routes } from '../../routes';
 @Injectable()
 export class RoutingListService {
 
   routes: any;
 
   constructor() { this.routes = routes; }
+
 
   getUrl(key: string): string {
     const parsedKey = this.parseKey(key);
@@ -18,14 +17,14 @@ export class RoutingListService {
 
     let url = '';
 
-    for (let i = 0; i < parsedKey.length; i++) {
+    for (const k of parsedKey) {
 
-      const subRoute = route[parsedKey[i]];
+      const subRoute = route[k];
 
       if (typeof subRoute === 'string') {
         url += subRoute;
       } else {
-        url += route[parsedKey[i]].url;
+        url += route[k].url;
       }
 
       route = subRoute;
@@ -37,17 +36,14 @@ export class RoutingListService {
   parseKey(key: string): Array<string> {
     const parsedKey = [];
 
-    for (let i = 0; i < key.length; i++) {
-
+    while (key.length > 0) {
       const index = key.indexOf('.');
 
       if (index === -1) {
-
         parsedKey.push(key);
 
         break;
       } else if (index !== 0) {
-
         parsedKey.push(key.slice(0, index));
       }
 

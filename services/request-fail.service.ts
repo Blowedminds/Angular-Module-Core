@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Subject} from 'rxjs';
-import {HttpRequest} from '@angular/common/http';
+import {RetryRequest} from '../models';
 
 
 /**
@@ -26,9 +26,4 @@ export class RequestFailService {
 
   constructor() {
   }
-}
-
-export interface RetryRequest {
-  req: HttpRequest<any>;
-  subject: Subject<any>;
 }

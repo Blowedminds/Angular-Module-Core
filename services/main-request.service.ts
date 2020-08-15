@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders, HttpRequest} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams, HttpRequest} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {RoutingListService} from './routing-list.service';
 import {environment} from '../../../environments/environment';
@@ -13,6 +13,14 @@ export class MainRequestService {
     protected http: HttpClient,
     protected routingListService: RoutingListService
   ) {
+  }
+
+  makeGetRequestWithParams(key: string, params: HttpParams, id?: string): Observable<any> {
+    const url = this.makeUrl(key, id || '');
+
+    return this.http.get(url, {
+      params
+    });
   }
 
   makeGetRequest(key: string, id?: string): Observable<any> {
@@ -70,10 +78,6 @@ export class MainRequestService {
 
     return this.http
       .request(req);
-  }
-
-  getHttpClient(): HttpClient {
-    return this.http;
   }
 
   makeUrl(key: string, url?: string): string {

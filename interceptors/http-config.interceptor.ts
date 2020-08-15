@@ -3,15 +3,19 @@ import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/com
 
 import {Observable, Subject, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
-import swal from 'sweetalert2';
 import {Router} from '@angular/router';
-import {RequestFailService, RetryRequest} from '../services/request-fail.service';
+import {RequestFailService} from '../services/request-fail.service';
+import {RetryRequest} from '../models';
+import {RoutingListService} from '../services/routing-list.service';
 
 @Injectable()
 export class HttpConfigInterceptor implements HttpInterceptor {
+  loginUrl: string;
+
   constructor(
     private router: Router,
     private requestFailService: RequestFailService,
+    private routingListService: RoutingListService,
     private httpHandler: HttpHandler
   ) {
     // Recursion issue can occur.
@@ -21,6 +25,8 @@ export class HttpConfigInterceptor implements HttpInterceptor {
         });
       }
     );
+
+    this.loginUrl = this.routingListService.getUrl('auth.login');
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -38,25 +44,32 @@ export class HttpConfigInterceptor implements HttpInterceptor {
   private handlerError(error: any, req: HttpRequest<any>): Observable<any> {
     switch (error.status) {
       case 401:
-        if (this.router.navigated && this.router.url !== '/auth/login') {
-          this.router.navigate([{outlets: {auth: ['popup']}}]);
+        const navigated = this.router.navigated;
+        const notLoginPage = this.router.url.indexOf('/auth/login') === -1;
+        const notLoginPopup = this.router.url.indexOf('(auth:popup)') === -1;
+        const notLoginRequest = req.url.indexOf(this.loginUrl) === -1;
+
+        const shouldRetryRequest = navigated && notLoginRequest;
+        const shouldNavigateLoginPopup = navigated && notLoginPage && notLoginPopup;
+        const shouldNavigateLoginPage = !navigated && notLoginPage;
+
+        if (shouldNavigateLoginPage) {
+          this.router.navigate(['auth/login']).then();
+        } else if (shouldNavigateLoginPopup) {
+          this.router.navigate([{outlets: {auth: ['popup']}}]).then();
+        }
+
+        if (shouldRetryRequest) {
           const subject = new Subject();
           setTimeout(() => this.requestFailService.failedRequests.next({req, subject}), 0);
           return subject;
-        } else if (this.router.url !== '/auth/login') {
-          this.router.navigate(['auth/login']);
         }
+
         break;
       case 422:
         break;
       default:
-        swal.fire({
-          title: error.status + ' ' + error.statusText,
-          icon: 'error',
-          text: error.name,
-          confirmButtonText: 'Ok',
-          showCancelButton: true,
-        }).then((result) => result);
+        console.log(error);
     }
 
     return throwError(error);
